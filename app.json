@@ -7,14 +7,12 @@
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "android": {
-      "package": "com.utsav.syllabusslayer",
+      "package": "com.epics.syllabusslayer",
       "versionCode": 1,
       "permissions": []
     },
-    "extra": {
-      "eas": {
-        "projectId": "a84f7fd7-90aa-472d-8996-51533893d61a"
-      }
+    "web": {
+      "bundler": "metro"
     }
   }
 }

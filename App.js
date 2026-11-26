@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from "react";
-import {
-  SafeAreaView, View, Text, TouchableOpacity, StyleSheet, StatusBar,
-  ScrollView, Platform
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 const QUESTIONS = [
   { q: "In a democracy, the source of power lies with?", options: ["The army", "The judiciary", "The citizens", "The police"], answer: 2 },
@@ -20,6 +19,14 @@ const QUESTIONS = [
 const LETTERS = ["A", "B", "C", "D"];
 
 export default function App() {
+  return (
+    <SafeAreaProvider>
+      <Game />
+    </SafeAreaProvider>
+  );
+}
+
+function Game() {
   const [screen, setScreen] = useState("home");
   const [index, setIndex] = useState(0);
   const [health, setHealth] = useState(3);
@@ -59,9 +66,14 @@ export default function App() {
       setScreen("over");
       return;
     }
+    // Demon is dead: win immediately instead of asking the remaining questions
+    if (demonHP <= 0) {
+      setScreen("victory");
+      return;
+    }
     if (next >= QUESTIONS.length) {
       setIndex(next);
-      setScreen(demonHP <= 0 ? "victory" : "over");
+      setScreen("over");
       return;
     }
     setIndex(next);
@@ -74,7 +86,7 @@ export default function App() {
 
   if (screen === "home") return (
     <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar style="light" />
       <View style={styles.home}>
         <Text style={styles.eyebrow}>A STUDY RPG</Text>
         <Text style={styles.logo}>SYLLABUS{"\n"}<Text style={styles.logoGold}>SLAYER</Text></Text>
@@ -103,7 +115,7 @@ export default function App() {
     const won = screen === "victory";
     return (
       <SafeAreaView style={styles.safe}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar style="light" />
         <View style={styles.result}>
           <Text style={styles.resultIcon}>{won ? "🏆" : "💀"}</Text>
           <Text style={[styles.resultTitle, won ? styles.gold : styles.red]}>{won ? "DEMON SLAIN!" : "HUNT ENDED"}</Text>
@@ -126,7 +138,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar style="light" />
       <ScrollView contentContainerStyle={styles.game} keyboardShouldPersistTaps="handled">
         <View style={styles.topRow}>
           <Text style={styles.smallBrand}>⚔ SYLLABUS SLAYER</Text>
@@ -191,7 +203,7 @@ export default function App() {
             <View style={[styles.feedbackBox, lastCorrect ? styles.feedbackGood : styles.feedbackBad]}>
               <Text style={styles.feedbackText}>{feedback}</Text>
               <TouchableOpacity style={styles.nextBtn} onPress={nextQuestion}>
-                <Text style={styles.nextBtnText}>{health <= 0 ? "SEE RESULT" : index === QUESTIONS.length - 1 ? "FINISH HUNT" : "NEXT QUESTION  →"}</Text>
+                <Text style={styles.nextBtnText}>{health <= 0 ? "SEE RESULT" : demonHP <= 0 ? "CLAIM VICTORY  🏆" : index === QUESTIONS.length - 1 ? "FINISH HUNT" : "NEXT QUESTION  →"}</Text>
               </TouchableOpacity>
             </View>
           )}
