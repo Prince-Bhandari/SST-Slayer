@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Syllabus Slayer",
+    "slug": "syllabus-slayer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "android": {
+      "package": "com.utsav.syllabusslayer",
+      "versionCode": 1,
+      "permissions": []
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a84f7fd7-90aa-472d-8996-51533893d61a"
+      }
+    }
+  }
+}
