@@ -7,8 +7,8 @@
 ## One-time setup
 
 ```bash
-git clone <repo-url>
-cd SST-Slayer
+git clone https://github.com/Prince-Bhandari/SST-Slayer.git
+cd SST-Slayer/
 npm install
 npx expo start      # scan the QR code with Expo Go to check it runs
 ```
